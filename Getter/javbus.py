@@ -108,19 +108,19 @@ def getOutlineScore(number):  # 获取简介
             score = str(float(score) / 10.0)
         else:
             score = str(re.findall(r'<b>平均評価</b>: ([^<]+)<br>', response)).strip(" [',']").replace('\'', '')
-        if outline == '':
-            dmm_htmlcode = get_html(
-                "https://www.dmm.co.jp/search/=/searchstr=" + number.replace('-', '') + "/sort=ranking/")
-            if 'に一致する商品は見つかりませんでした' not in dmm_htmlcode:
-                dmm_page = etree.fromstring(dmm_htmlcode, etree.HTMLParser())
-                url_detail = str(dmm_page.xpath('//*[@id="list"]/li[1]/div/p[2]/a/@href')).split(',', 1)[0].strip(
-                    " ['']")
-                if url_detail != '':
-                    dmm_detail = get_html(url_detail)
-                    html = etree.fromstring(dmm_detail, etree.HTMLParser())
-                    outline = str(html.xpath('//*[@class="mg-t0 mg-b20"]/text()')).strip(" ['']").replace('\\n',
-                                                                                                          '').replace(
-                        '\n', '')
+        # if outline == '':
+        #     dmm_htmlcode = get_html(
+        #         "https://www.dmm.co.jp/search/=/searchstr=" + number.replace('-', '') + "/sort=ranking/")
+        #     if 'に一致する商品は見つかりませんでした' not in dmm_htmlcode:
+        #         dmm_page = etree.fromstring(dmm_htmlcode, etree.HTMLParser())
+        #         url_detail = str(dmm_page.xpath('//*[@id="list"]/li[1]/div/p[2]/a/@href')).split(',', 1)[0].strip(
+        #             " ['']")
+        #         if url_detail != '':
+        #             dmm_detail = get_html(url_detail)
+        #             html = etree.fromstring(dmm_detail, etree.HTMLParser())
+        #             outline = str(html.xpath('//*[@class="mg-t0 mg-b20"]/text()')).strip(" ['']").replace('\\n',
+        #                                                                                                   '').replace(
+        #                 '\n', '')
     except Exception as error_info:
         print('Error in javbus.getOutlineScore : ' + str(error_info))
     return outline, score

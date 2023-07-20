@@ -1,6 +1,6 @@
 lxml
-pyqt5
-pyqt5-tools
+pyqt6
+pyqt6-tools
 pillow
 bs4
 pyquery

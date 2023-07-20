@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 import threading
 import json
-from PyQt5 import QtWidgets
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtGui import QTextCursor, QCursor
-from PyQt5.QtWidgets import QMainWindow, QTreeWidgetItem, QApplication
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt6 import QtWidgets
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QTextCursor, QCursor
+from PyQt6.QtWidgets import QMainWindow, QTreeWidgetItem, QApplication
+from PyQt6.QtCore import pyqtSignal, Qt
 import sys
 import time
 import os.path
@@ -65,9 +65,9 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
         self.Ui.progressBar_avdc.setValue(0)  # 进度条清0
         self.progressBarValue.connect(self.set_processbar)
         self.Ui.progressBar_avdc.setTextVisible(False)  # 不显示进度条文字
-        self.setWindowFlag(Qt.FramelessWindowHint)  # 隐藏边框
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)  # 隐藏边框
         # self.setWindowOpacity(0.9)  # 设置窗口透明度
-        self.setAttribute(Qt.WA_TranslucentBackground)  # 设置窗口背景透明
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)  # 设置窗口背景透明
         self.Ui.treeWidget_number.expandAll()
 
     def set_style(self):
@@ -86,20 +86,20 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
                     border-radius:15px;
                     padding:2px 4px;
             }
-            
+
             ''')
         self.Ui.centralwidget.setStyleSheet(
             '''
             * {
                     font-size:15px;
-            }            
+            }
             QWidget#centralwidget{
                     background:gray;
                     border:1px solid gray;
                     width:300px;
                     border-radius:20px;
                     padding:2px 4px;
-            }            
+            }
             QTextBrowser{
                     border:1px solid gray;
                     background:white;
@@ -113,21 +113,21 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
                     width:300px;
                     border-radius:10px;
                     padding:2px 4px;
-            }            
+            }
             QTextBrowser#textBrowser_about{
                     background:white;
                     border:1px solid white;
                     width:300px;
                     border-radius:10px;
                     padding:2px 4px;
-            }            
+            }
             QTextBrowser#textBrowser_warning{
                     background:gray;
                     border:1px solid gray;
                     width:300px;
                     border-radius:10px;
                     padding:2px 4px;
-            }            
+            }
             QPushButton#pushButton_start_cap,#pushButton_move_mp4,#pushButton_select_file,#pushButton_select_thumb{
                     font-size:20px;
                     background:#F0F8FF;
@@ -191,19 +191,19 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
 
     # ========================================================================鼠标拖动窗口
     def mousePressEvent(self, e):
-        if e.button() == Qt.LeftButton:
+        if e.button() == Qt.MouseButton.LeftButton:
             self.m_drag = True
-            self.m_DragPosition = e.globalPos() - self.pos()
-            self.setCursor(QCursor(Qt.OpenHandCursor))  # 按下左键改变鼠标指针样式为手掌
+            self.m_DragPosition = e.globalPosition().toPoint() - self.pos()
+            self.setCursor(QCursor(Qt.CursorShape.OpenHandCursor))  # 按下左键改变鼠标指针样式为手掌
 
     def mouseReleaseEvent(self, e):
-        if e.button() == Qt.LeftButton:
+        if e.button() == Qt.MouseButton.LeftButton:
             self.m_drag = False
-            self.setCursor(QCursor(Qt.ArrowCursor))  # 释放左键改变鼠标指针样式为箭头
+            self.setCursor(QCursor(Qt.CursorShape.ArrowCursor))  # 释放左键改变鼠标指针样式为箭头
 
     def mouseMoveEvent(self, e):
-        if Qt.LeftButton and self.m_drag:
-            self.move(e.globalPos() - self.m_DragPosition)
+        if Qt.MouseButton.LeftButton and self.m_drag:
+            self.move(e.globalPosition().toPoint() - self.m_DragPosition)
             e.accept()
 
     # ========================================================================左侧按钮点击事件响应函数
@@ -211,7 +211,7 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
         os._exit(0)
 
     def min_win(self):
-        self.setWindowState(Qt.WindowMinimized)
+        self.setWindowState(Qt.WindowState.WindowMinimized)
 
     def pushButton_main_clicked(self):
         self.Ui.stackedWidget.setCurrentIndex(0)
@@ -980,7 +980,7 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
             if self.Ui.radioButton_log_on.isChecked():
                 self.log_txt.write((str(text) + '\n').encode('utf8'))
             self.Ui.textBrowser_log_main.append(text)
-            self.Ui.textBrowser_log_main.moveCursor(QTextCursor.End)
+            self.Ui.textBrowser_log_main.moveCursor(QTextCursor.MoveOperation.End)
         except Exception as error_info:
             self.Ui.textBrowser_log_main.append('[-]Error in add_text_main' + str(error_info))
 
@@ -1611,11 +1611,11 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
         movie_type = self.Ui.lineEdit_movie_type.text()
         escape_string = self.Ui.lineEdit_escape_string.text()
         # =======================================================================检测更新,判断网络情况,新建failed目录,获取影片列表
-        if self.UpdateCheck() == 'ProxyError':
-            self.add_text_main('[-]Connect Failed! Please check your Proxy or Network!')
-            self.Ui.pushButton_start_cap.setEnabled(True)
-            self.add_text_main("[*]======================================================")
-            return
+        # if self.UpdateCheck() == 'ProxyError':
+        #     self.add_text_main('[-]Connect Failed! Please check your Proxy or Network!')
+        #     self.Ui.pushButton_start_cap.setEnabled(True)
+        #     self.add_text_main("[*]======================================================")
+        #     return
         if self.Ui.radioButton_fail_move_on.isChecked():
             self.CreatFailedFolder(failed_folder)  # 新建failed文件夹
         movie_list = movie_lists(escape_folder, movie_type, movie_path)  # 获取所有需要刮削的影片列表
@@ -1674,4 +1674,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ui = MyMAinWindow()
     ui.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

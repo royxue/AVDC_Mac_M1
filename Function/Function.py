@@ -148,8 +148,8 @@ def getDataFromJSON(file_number, config, mode, appoint_url):  # 从JSON返回元
                 json_data = json.loads(javdb.main(file_number, appoint_url, True))
             if getDataState(json_data) == 0 and 'HEYZO' in file_number.upper():
                 json_data = json.loads(jav321.main(file_number, appoint_url, True))
-            if getDataState(json_data) == 0:
-                json_data = json.loads(avsox.main(file_number, appoint_url))
+            # if getDataState(json_data) == 0:
+            #     json_data = json.loads(avsox.main(file_number, appoint_url))
         # =======================================================================259LUXU-1111
         elif re.match('\d+[a-zA-Z]+-\d+', file_number) or 'SIRO' in file_number.upper():
             json_data = json.loads(mgstage.main(file_number, appoint_url))
