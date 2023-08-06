@@ -21,7 +21,9 @@ from configparser import ConfigParser
 from Ui.AVDC import Ui_AVDV
 from Function.Function import save_config, movie_lists, get_info, getDataFromJSON, escapePath, getNumber, check_pic
 from Function.getHtml import get_html, get_proxies, get_config
+import faulthandler
 
+faulthandler.enable()
 
 class MyMAinWindow(QMainWindow, Ui_AVDV):
     progressBarValue = pyqtSignal(int)  # 进度条信号量
@@ -317,7 +319,7 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
 
     # ========================================================================加载config
     def Load_Config(self):
-        config_file = 'config.ini'
+        config_file = 'local.config.ini'
         config = ConfigParser()
         config.read(config_file, encoding='UTF-8')
         # ========================================================================common
@@ -980,7 +982,7 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
             if self.Ui.radioButton_log_on.isChecked():
                 self.log_txt.write((str(text) + '\n').encode('utf8'))
             self.Ui.textBrowser_log_main.append(text)
-            self.Ui.textBrowser_log_main.moveCursor(QTextCursor.MoveOperation.End)
+            # self.Ui.textBrowser_log_main.moveCursor(QTextCursor.MoveOperation.End)
         except Exception as error_info:
             self.Ui.textBrowser_log_main.append('[-]Error in add_text_main' + str(error_info))
 
@@ -1502,7 +1504,7 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
         multi_part = 0
         part = ''
         program_mode = 0
-        config_file = 'config.ini'
+        config_file = 'local.config.ini'
         Config = ConfigParser()
         Config.read(config_file, encoding='UTF-8')
         if self.Ui.radioButton_common.isChecked():
@@ -1599,7 +1601,7 @@ class MyMAinWindow(QMainWindow, Ui_AVDV):
     def AVDC_Main(self):
         # =======================================================================初始化所需变量
         os.chdir(os.getcwd())
-        config_file = 'config.ini'
+        config_file = 'local.config.ini'
         config = ConfigParser()
         config.read(config_file, encoding='UTF-8')
         movie_path = self.Ui.lineEdit_movie_path.text()

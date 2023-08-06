@@ -7,10 +7,10 @@ import cloudscraper
 # ========================================================================获取config
 def get_config():
     config_file = ''
-    if os.path.exists('../config.ini'):
-        config_file = '../config.ini'
-    elif os.path.exists('config.ini'):
-        config_file = 'config.ini'
+    if os.path.exists('../local.config.ini'):
+        config_file = '../local.config.ini'
+    elif os.path.exists('local.config.ini'):
+        config_file = 'local.config.ini'
     config = ConfigParser()
     config.read(config_file, encoding='UTF-8')
     proxy_type = str(config['proxy']['type'])

@@ -11,10 +11,10 @@ from Getter import avsox, javbus, javdb, mgstage, dmm, jav321, xcity
 # ========================================================================获取config
 def get_config():
     config_file = ''
-    if os.path.exists('../config.ini'):
-        config_file = '../config.ini'
-    elif os.path.exists('config.ini'):
-        config_file = 'config.ini'
+    if os.path.exists('../local.config.ini'):
+        config_file = '../local.config.ini'
+    elif os.path.exists('local.config.ini'):
+        config_file = 'local.config.ini'
     config = ConfigParser()
     config.read(config_file, encoding='UTF-8')
     return config
@@ -298,10 +298,10 @@ def get_info(json_data):
 def save_config(json_config):
     # json_config = json.loads(json_config)
     config_file = ''
-    if os.path.exists('../config.ini'):
-        config_file = '../config.ini'
-    elif os.path.exists('config.ini'):
-        config_file = 'config.ini'
+    if os.path.exists('../local.config.ini'):
+        config_file = '../local.config.ini'
+    elif os.path.exists('local.config.ini'):
+        config_file = 'local.config.ini'
     with open(config_file, "wt", encoding='UTF-8') as code:
         print("[common]", file=code)
         print("main_mode = " + str(json_config['main_mode']), file=code)
